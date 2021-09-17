@@ -1,6 +1,9 @@
 import Header from './Header';
 
-const Feedback = ({rating, value}) => ( <p>{ rating }: { value }</p> );
+const StatisticsLine = ({rating, value}) => ( <tr>
+  <td>{ rating }:</td>
+  <td>{ value }</td>
+</tr> );
 
 const Statistics = ({feedback}) => {
 
@@ -30,12 +33,22 @@ const Statistics = ({feedback}) => {
 
       <div>
         <Header heading="Statistics"/>
-        <Feedback rating="good" value={ feedback.good }/>
-        <Feedback rating="neutral" value={ feedback.neutral }/>
-        <Feedback rating="bad" value={ feedback.bad }/>
-        <Feedback rating="total" value={ feedbackCount() }/>
-        <Feedback rating="average" value={ average() }/>
-        <Feedback rating="positive" value={ positive() }/>
+        <table>
+          <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+          </tr>
+          </thead>
+          <tbody>
+            <StatisticsLine rating="good" value={ feedback.good }/>
+            <StatisticsLine rating="neutral" value={ feedback.neutral }/>
+            <StatisticsLine rating="bad" value={ feedback.bad }/>
+            <StatisticsLine rating="total" value={ feedbackCount() }/>
+            <StatisticsLine rating="average" value={ average() }/>
+            <StatisticsLine rating="positive" value={ positive() }/>
+          </tbody>
+        </table>
       </div>
   );
 };
