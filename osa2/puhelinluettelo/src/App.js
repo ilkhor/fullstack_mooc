@@ -42,11 +42,21 @@ const App = () => {
     }
 
     phonebookService.storePerson(person)
-      .then(p => {
-        setPersons(persons.concat(p));
-      })
+    .then(p => {
+      setPersons(persons.concat(p));
+    });
 
     return true;
+  };
+
+  const deletePerson = (id) => {
+
+    const p = persons.find(p => p.id === id);
+    if (p !== undefined && window.confirm(`Poistetaanko ${ p.name } luettelosta`)) {
+      phonebookService.deletePerson(id)
+      .then(pid => setPersons(persons.filter(p => p.id !== pid)));
+    }
+
   };
 
   return (
@@ -54,7 +64,7 @@ const App = () => {
         <h2>Phonebook</h2>
         <Filter onFilterChange={ onFilterChange } filter={ filter }/>
         <NewPerson handleAddNewPerson={ addNewPerson }/>
-        <Persons persons={ filteredPersons() }/>
+        <Persons persons={ filteredPersons() } handleDelete={ deletePerson }/>
       </div>
   );
 

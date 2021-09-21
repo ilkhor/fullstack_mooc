@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const fetchPersons = (url) => () => {
-  return axios.get(url)
+  return axios
+  .get(url)
   .then(response => {
     return response.data;
   });
@@ -9,7 +10,13 @@ const fetchPersons = (url) => () => {
 
 const storePerson = (url) => (person) => {
   return axios.post(url, person)
-      .then(r => r.data);
+  .then(r => r.data);
+};
+
+const deletePerson = (url) => (id) => {
+  const itemUrl = `${ url }/${ id }`;
+  return axios.delete(itemUrl)
+  .then(resp => id);
 };
 
 const noteService = (url) => {
@@ -17,6 +24,7 @@ const noteService = (url) => {
   return {
     fetchPersons: fetchPersons(url),
     storePerson: storePerson(url),
+    deletePerson: deletePerson(url),
   };
 
 };
