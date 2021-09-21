@@ -30,23 +30,29 @@ const App = () => {
 
   const addNewPerson = (person) => {
 
-    console.log(`addNewPerson ${ person }`);
+    const val = persons.find(p => p.name === person.name);
     const nameAlreadyExists = () => {
-      const val = persons.find(p => p.name === person.name);
       return val !== undefined;
     };
 
     if (nameAlreadyExists()) {
-      alert(`${ person.name } is already added to phonebook`);
-      return false;
+      if (window.confirm(`Korvataanko ${ person.name } tiedot`)) {
+
+        phonebookService.updatePerson(val.id, person)
+        .then(up => setPersons(persons.map(p => p.id === val.id ? up : p)));
+        return true;
+      }
+    } else {
+      phonebookService.storePerson(person)
+      .then(p => {
+        setPersons(persons.concat(p));
+      });
+
+      return true;
     }
 
-    phonebookService.storePerson(person)
-    .then(p => {
-      setPersons(persons.concat(p));
-    });
+    return false;
 
-    return true;
   };
 
   const deletePerson = (id) => {

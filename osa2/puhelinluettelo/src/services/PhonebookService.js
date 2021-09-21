@@ -19,12 +19,19 @@ const deletePerson = (url) => (id) => {
   .then(resp => id);
 };
 
+const updatePerson = (url) => (id, person) => {
+  const itemUrl = `${ url }/${ id }`;
+  return axios.put(itemUrl, person)
+  .then(resp => resp.data);
+};
+
 const noteService = (url) => {
 
   return {
     fetchPersons: fetchPersons(url),
     storePerson: storePerson(url),
     deletePerson: deletePerson(url),
+    updatePerson: updatePerson(url),
   };
 
 };

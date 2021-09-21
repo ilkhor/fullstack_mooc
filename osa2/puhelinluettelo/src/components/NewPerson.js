@@ -16,7 +16,6 @@ const NewPerson = ({handleAddNewPerson}) => {
   };
 
   const buttonDisabled = () => {
-    console.log('buttonDisabled', person);
     if (person.name === undefined || person.name.length === 0) {
       return true;
     } else if (person.number === undefined || person.number.length === 0) {
@@ -28,7 +27,6 @@ const NewPerson = ({handleAddNewPerson}) => {
   const addNewPerson = (event) => {
     event.preventDefault();
 
-    console.log(person);
     if (handleAddNewPerson(person)) {
       setNewPerson({
         name: '',
