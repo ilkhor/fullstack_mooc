@@ -18,6 +18,8 @@ function App () {
     setCountryName(country);
   }
 
+
+
   useEffect(() => {
     const url = `https://restcountries.eu/rest/v2/name/${ countryName }`;
 
