@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Persons from './Persons';
-import NewPerson from './NewPerson';
-import Filter from './Filter';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Persons from './components/Persons';
+import NewPerson from './components/NewPerson';
+import Filter from './components/Filter';
+import phonebookFactory from './services/PhonebookService';
 
 const App = () => {
-
-  const fetchPersons = () => {
-    axios.get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data);
-    })
-  };
 
   const [persons, setPersons] = useState([]);
   const [filter, setNewFilter] = useState('');
 
-  useEffect( fetchPersons, []);
+  const phonebookService = phonebookFactory('http://localhost:3001/persons');
+
+  useEffect(() => {
+    phonebookService.fetchPersons()
+    .then(p => setPersons(p));
+  }, []);
 
   const onFilterChange = (event) => {
     setNewFilter(event.target.value);
@@ -43,7 +41,11 @@ const App = () => {
       return false;
     }
 
-    setPersons(persons.concat(person));
+    phonebookService.storePerson(person)
+      .then(p => {
+        setPersons(persons.concat(p));
+      })
+
     return true;
   };
 
