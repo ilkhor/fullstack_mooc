@@ -1,7 +1,7 @@
 import Country from './Country';
 import CountryDetails from './CountryDetails';
 
-const Countries = ({countries, maxCountries}) => {
+const Countries = ({countries, maxCountries, handleDetails}) => {
 
   if (countries.length > maxCountries) {
     return (
@@ -17,7 +17,7 @@ const Countries = ({countries, maxCountries}) => {
   }
   return (
       countries.map(country => (
-          <Country key={ country.cioc } country={ country }/>
+          <Country key={ country.cioc } country={ country } handleDetails={handleDetails}/>
       ))
   );
 };

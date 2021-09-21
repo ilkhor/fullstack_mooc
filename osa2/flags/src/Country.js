@@ -1,8 +1,12 @@
-const Country = ({country}) => {
+const Country = ({country, handleDetails}) => {
+
+  const onClick = (event) => {
+    handleDetails(country.name);
+  }
 
   return (
       <div>
-        <p>{country.name}</p>
+        <p>{country.name} <button onClick={onClick}>Details</button></p>
       </div>
   )
 };

@@ -14,6 +14,10 @@ function App () {
     setCountryName(event.target.value);
   };
 
+  const handleDetails = (country) => {
+    setCountryName(country);
+  }
+
   useEffect(() => {
     const url = `https://restcountries.eu/rest/v2/name/${ countryName }`;
 
@@ -33,7 +37,7 @@ function App () {
   return (
       <div>
         <CountryFilter country={ countryName } handleChange={ handleChange }/>
-        <Countries countries={ countries } maxCountries={ 5 }/>
+        <Countries countries={ countries } maxCountries={ 5 } handleDetails={handleDetails}/>
       </div>
   );
 }
