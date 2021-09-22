@@ -4,18 +4,35 @@ import blogService from './services/blogs';
 import users from './services/user';
 
 const App = () => {
+  const initUser = () => {
+    const authorizedUser = users.fetchUserLocally();
+    if (authorizedUser !== null ) {
+      blogService.setToken(authorizedUser.token);
+    }
+
+    return authorizedUser;
+  }
+
   const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(initUser());
   const [userName, setUserName] = useState('');
   const [pwd, setPwd] = useState('');
 
   const login = async (e) => {
     e.preventDefault();
 
-    const reply = await users.login(userName, pwd);
-    blogService.setToken(reply.token);
-    setUser(reply);
+    const authorizedUser = await users.login(userName, pwd);
+
+    users.storeUserLocally(authorizedUser);
+    blogService.setToken(authorizedUser.token);
+    setUser(authorizedUser);
   };
+
+  const logout = (e) => {
+    blogService.clearToken();
+    users.removeLocallyStoredUser();
+    setUser(null);
+  }
 
   const loginForm = () => (
       <form onSubmit={ login }>
@@ -30,8 +47,13 @@ const App = () => {
   );
 
   const blogList = () => {
-    return ( [<h2>Blogs</h2>, blogs.map(blog => <Blog key={ blog.id } blog={ blog }/>)] );
+    return ( <h2>Blogs</h2>, blogs.map(blog => <Blog key={ blog.id } blog={ blog }/>) );
   };
+
+  const userInfo = () => {
+    return (<div>{user.name} is logged in
+    <button onClick={logout}>Logout</button></div>);
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -47,6 +69,7 @@ const App = () => {
 
   return (
       <div>
+        { userInfo() }
         { blogList() }
       </div>
   );

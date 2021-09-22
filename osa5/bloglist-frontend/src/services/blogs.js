@@ -26,4 +26,6 @@ const setToken = (t) => {
   token = t;
 };
 
-export default {getAll, setToken};
+const clearToken = () => token = null;
+
+export default {getAll, setToken, clearToken};
