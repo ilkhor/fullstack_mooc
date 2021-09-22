@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Blog from './components/Blog';
 import blogService from './services/blogs';
 import users from './services/user';
+import BlogForm from './components/BlogForm';
+import UserInfo from './components/UserInfo';
+import BlogList from './components/BlogList';
+import LoginForm from './components/LoginForm';
 
 const App = () => {
   const initUser = () => {
     const authorizedUser = users.fetchUserLocally();
-    if (authorizedUser !== null ) {
+    if (authorizedUser !== null) {
       blogService.setToken(authorizedUser.token);
     }
 
     return authorizedUser;
-  }
+  };
 
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(initUser());
-  const [userName, setUserName] = useState('');
-  const [pwd, setPwd] = useState('');
 
-  const login = async (e) => {
-    e.preventDefault();
+  const login = async (userName, pwd) => {
 
     const authorizedUser = await users.login(userName, pwd);
 
@@ -28,32 +28,16 @@ const App = () => {
     setUser(authorizedUser);
   };
 
-  const logout = (e) => {
+  const logout = () => {
     blogService.clearToken();
     users.removeLocallyStoredUser();
     setUser(null);
-  }
-
-  const loginForm = () => (
-      <form onSubmit={ login }>
-        <div>
-          User: <input type="text" value={ userName } onChange={ (e) => setUserName(e.target.value) }/>
-        </div>
-        <div>
-          password: <input type="password" value={ pwd } onChange={ (e) => setPwd(e.target.value) }/>
-        </div>
-        <button type="submit">Kirjaudu</button>
-      </form>
-  );
-
-  const blogList = () => {
-    return ( <h2>Blogs</h2>, blogs.map(blog => <Blog key={ blog.id } blog={ blog }/>) );
   };
 
-  const userInfo = () => {
-    return (<div>{user.name} is logged in
-    <button onClick={logout}>Logout</button></div>);
-  }
+  const newBlogPost = async (blog) => {
+    const newBlog = await blogService.create(blog);
+    setBlogs(blogs.concat(newBlog));
+  };
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -63,14 +47,15 @@ const App = () => {
 
   if (user === null) {
     return ( <div>
-      { loginForm() }
+      <LoginForm handleLogin={ login }/>
     </div> );
   }
 
   return (
       <div>
-        { userInfo() }
-        { blogList() }
+        <UserInfo user={ user } handleLogout={ logout }/>
+        <BlogForm handleSubmit={ newBlogPost }/>
+        <BlogList blogs={ blogs }/>
       </div>
   );
 };

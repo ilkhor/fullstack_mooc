@@ -22,10 +22,16 @@ const getAll = () => {
   return request.then(response => response.data);
 };
 
+const create = (blog) => {
+  const cfg = config();
+  const request = axios.post(baseUrl, blog, cfg);
+  return request.then(response => response.data);
+}
+
 const setToken = (t) => {
   token = t;
 };
 
 const clearToken = () => token = null;
 
-export default {getAll, setToken, clearToken};
+export default {getAll, create, setToken, clearToken};
