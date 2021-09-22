@@ -4,28 +4,40 @@ const server = jsonServer.create();
 const path = require('path');
 const router = jsonServer.router(path.join(__dirname, 'db.json'));
 const middlewares = jsonServer.defaults();
-const { v4: uuidv4 } = require('uuid');
+const {v4: uuidv4} = require('uuid');
+
+const users = ['ilkka', 'test', 'foobar'];
 
 const isAuthorized = (req) => {
-  return !(req.headers.authorization === undefined);
+  return !( req.headers.authorization === undefined );
 };
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.post('/login', (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application\\json'});
-  const userForToken = {
-    name: req.body.user,
-    token: uuidv4(),
-  };
 
-  const token = jwt.sign(userForToken, process.env.SECRET);
+  const user = users.find(u => u === req.body.user);
 
-  res.write(JSON.stringify({
-    name: 'Ilkka',
-    token: token,
-  }));
+  if (user !== undefined) {
+    const userForToken = {
+      name: req.body.user,
+      token: uuidv4(),
+    };
+
+    const token = jwt.sign(userForToken, process.env.SECRET);
+
+    res.writeHead(200, {'Content-Type': 'application\\json'});
+    res.write(JSON.stringify({
+      name: 'Ilkka',
+      token: token,
+    }));
+  } else {
+    res.writeHead(401, {'Content-Type': 'application\\json'});
+    res.write(JSON.stringify({
+      error: 'Wrong username or password',
+    }));
+  }
 
   res.end();
 });
