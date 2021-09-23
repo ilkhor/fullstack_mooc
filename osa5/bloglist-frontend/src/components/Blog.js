@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({blog}) => {
+const Blog = ({blog, likeBlog}) => {
 
   const blogStyle = {
     paddingTop: 10,
@@ -22,6 +22,10 @@ const Blog = ({blog}) => {
     else setState('small');
   };
 
+  const onLikeClick = () => {
+    likeBlog(blog.id);
+  };
+
   const likes = () => {
     if (blog.likes === undefined) return 0;
     return blog.likes;
@@ -36,7 +40,7 @@ const Blog = ({blog}) => {
           <p>{ blog.title }</p>
           <p>{ blog.url }</p>
           <div>Likes { likes() }
-            <button>Like</button>
+            <button onClick={ onLikeClick }>Like</button>
           </div>
           <p>{ blog.author }</p>
         </div>

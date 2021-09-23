@@ -52,6 +52,15 @@ const App = () => {
     }
   };
 
+  const likeBlog = async (id) => {
+    const blog = blogs.find(b => b.id === id);
+    if (blog !== undefined) {
+      const updated = await blogService.likeBlog(blog);
+      setBlogs(blogs.map(b => b.id === id? updated : b));
+      setMessage('Blogi päivitetty', 'success');
+    }
+  }
+
   const logout = () => {
     blogService.clearToken();
     users.removeLocallyStoredUser();
@@ -86,7 +95,7 @@ const App = () => {
         <Toggle initialVisibility={false} showTxt='Lisää uusi blogi' hideTxt='Peruuta' ref={ref}>
           <BlogForm handleSubmit={ newBlogPost }/>
         </Toggle>
-        <BlogList blogs={ blogs }/>
+        <BlogList blogs={ blogs } likeBlog={likeBlog}/>
       </div>
   );
 };
