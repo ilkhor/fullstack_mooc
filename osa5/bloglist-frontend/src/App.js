@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import blogService from './services/blogs';
 import users from './services/user';
 import BlogForm from './components/BlogForm';
@@ -7,6 +7,7 @@ import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
 import './App.css'
 import MessageBox from './components/MessageBox';
+import Toggle from './components/Toggle';
 
 const App = () => {
   const initUser = () => {
@@ -26,19 +27,16 @@ const App = () => {
     clazz: '',
   });
 
-  const clearInfo = (timeout) => {
-    const info = {timeout: 5000, message: '', clazz: ''};
-
-    setTimeout(() => {
-      setInfoMessage(info);
-      console.log('clearInfo')
-    }, infoMessage.timeout);
-  }
+  const ref = useRef();
 
   const setMessage = (message, clazz) => {
     const info = {...infoMessage, message: message, clazz: clazz};
     setInfoMessage(info);
-    clearInfo(info.timeout);
+
+    const clear = {timeout: 5000, message: '', clazz: ''};
+    setTimeout(() => {
+      setInfoMessage(clear);
+    }, infoMessage.timeout);
   };
 
   const login = async (userName, pwd) => {
@@ -65,6 +63,7 @@ const App = () => {
     const newBlog = await blogService.create(blog);
     setBlogs(blogs.concat(newBlog));
     setMessage('Blogi lisätty onnistuneesti', 'success');
+    ref.current.setVisibility(false);
   };
 
   useEffect(() => {
@@ -84,7 +83,9 @@ const App = () => {
       <div>
         <MessageBox message={infoMessage.message} clazz={infoMessage.clazz} />
         <UserInfo user={ user } handleLogout={ logout }/>
-        <BlogForm handleSubmit={ newBlogPost }/>
+        <Toggle initialVisibility={false} showTxt='Lisää uusi blogi' hideTxt='Peruuta' ref={ref}>
+          <BlogForm handleSubmit={ newBlogPost }/>
+        </Toggle>
         <BlogList blogs={ blogs }/>
       </div>
   );
