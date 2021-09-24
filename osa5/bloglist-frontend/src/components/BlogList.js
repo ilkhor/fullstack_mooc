@@ -1,4 +1,5 @@
 import Blog from './Blog';
+import PropTypes from 'prop-types';
 
 const BlogList = ({blogs, likeBlog, deleteBlog}) => {
   return (
@@ -10,10 +11,16 @@ const BlogList = ({blogs, likeBlog, deleteBlog}) => {
             else if (a.likes === b.likes) return 0;
             return 1;
           })
-          .map(blog => <Blog key={ blog.id } blog={ blog } likeBlog={ likeBlog } deleteBlog={deleteBlog}/>)
+          .map(blog => <Blog key={ blog.id } blog={ blog } likeBlog={ likeBlog } deleteBlog={ deleteBlog }/>)
         }
       </div>
   );
+};
+
+BlogList.prototypes = {
+  blogs: PropTypes.object,
+  likeBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
 };
 
 export default BlogList;

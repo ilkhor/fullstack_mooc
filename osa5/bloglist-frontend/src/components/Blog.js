@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import userService from '../services/user'
+import userService from '../services/user';
+import PropTypes from 'prop-types';
 
 const Blog = ({blog, likeBlog, deleteBlog}) => {
 
@@ -58,14 +59,19 @@ const Blog = ({blog, likeBlog, deleteBlog}) => {
             <button onClick={ onLikeClick }>Like</button>
           </div>
           <p>{ blog.author }</p>
-          <div  style={deleteBtnVisibility()}>
+          <div style={ deleteBtnVisibility() }>
             <button onClick={ onDelete }>Poista</button>
           </div>
         </div>
         <button onClick={ onClick }>{ btnTxt() }</button>
       </div>
   );
+};
 
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  likeBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
 };
 
 export default Blog;

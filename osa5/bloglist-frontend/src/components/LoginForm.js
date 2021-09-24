@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import Toggle from './Toggle';
+
 const {useState} = require('react');
 const LoginForm = ({handleLogin}) => {
 
@@ -21,6 +24,10 @@ const LoginForm = ({handleLogin}) => {
         </div>
         <button type="submit">Kirjaudu</button>
       </form> );
+};
+
+LoginForm.prototypes = {
+  handleLogin: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

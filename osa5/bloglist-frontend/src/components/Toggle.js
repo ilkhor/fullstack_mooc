@@ -1,4 +1,6 @@
 import React, { useImperativeHandle, useState } from 'react';
+import PropTypes from 'prop-types';
+import BlogForm from './BlogForm';
 
 const Toggle = React.forwardRef((props, ref) => {
 
@@ -27,5 +29,12 @@ const Toggle = React.forwardRef((props, ref) => {
       </div> );
 
 });
+
+Toggle.prototypes = {
+  initialVisibility: PropTypes.bool.isRequired,
+  showTxt: PropTypes.string.isRequired,
+  hideTxt: PropTypes.string.isRequired,
+};
+
 
 export default Toggle;

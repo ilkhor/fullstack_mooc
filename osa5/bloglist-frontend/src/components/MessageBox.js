@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+import LoginForm from './LoginForm';
 
 const MessageBox = ({message, clazz}) => {
 
@@ -12,5 +14,11 @@ const MessageBox = ({message, clazz}) => {
   );
 
 };
+
+LoginForm.prototypes = {
+  message: PropTypes.string,
+  clazz: PropTypes.string,
+};
+
 
 export default MessageBox;
