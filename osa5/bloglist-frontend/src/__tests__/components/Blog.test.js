@@ -53,4 +53,23 @@ describe('Blog tests', () => {
     expect(big).toHaveTextContent(blog.url);
   });
 
+  test('add likes called correctly', () => {
+
+    const likeBlog = jest.fn();
+    const deleteBlog = jest.fn();
+
+    const component = render(
+      <Blog blog={ blog } likeBlog={ likeBlog } deleteBlog={ deleteBlog }/>
+    );
+
+    const toggleBtn = component.container.querySelector('#toggle');
+    const likeBtn = component.container.querySelector('#likeBtn');
+
+    fireEvent.click(toggleBtn);
+    fireEvent.click(likeBtn);
+    fireEvent.click(likeBtn);
+
+    expect(likeBlog).toHaveBeenCalledTimes(2);
+  });
+
 });
