@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const login = async (user, pwd) => {
 
-  const userWithToken = await axios.post('/login', {user: user, password: pwd});
+  const userWithToken = await axios.post('/login', { user: user, password: pwd });
   return userWithToken.data;
 };
 
@@ -13,7 +13,7 @@ const storeUserLocally = (user) => {
 const fetchUserLocally = () => {
   const userJson = window.localStorage.getItem('user');
 
-  if (userJson !== null ) {
+  if (userJson !== null) {
     return JSON.parse(userJson);
   }
 
@@ -22,6 +22,6 @@ const fetchUserLocally = () => {
 
 const removeLocallyStoredUser = () => {
   window.localStorage.removeItem('user');
-}
+};
 
-export default {login, storeUserLocally, fetchUserLocally, removeLocallyStoredUser};
+export default { login, storeUserLocally, fetchUserLocally, removeLocallyStoredUser };

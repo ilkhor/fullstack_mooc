@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import userService from '../services/user';
 import PropTypes from 'prop-types';
 
-const Blog = ({blog, likeBlog, deleteBlog}) => {
+const Blog = ({ blog, likeBlog, deleteBlog }) => {
 
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5,
+    marginBottom: 5
   };
 
   const user = userService.fetchUserLocally();
@@ -17,8 +17,8 @@ const Blog = ({blog, likeBlog, deleteBlog}) => {
 
   const btnTxt = () => ( state === 'small' ? 'Näytä' : 'Piilota' );
 
-  const smallVisibility = () => ( {display: state === 'small' ? '' : 'none'} );
-  const bigVisibility = () => ( {display: state === 'big' ? '' : 'none'} );
+  const smallVisibility = () => ( { display: state === 'small' ? '' : 'none' } );
+  const bigVisibility = () => ( { display: state === 'big' ? '' : 'none' } );
 
   const onClick = () => {
     if (state === 'small') setState('big');
@@ -38,9 +38,9 @@ const Blog = ({blog, likeBlog, deleteBlog}) => {
 
     console.log(blog.user, user.name);
     if (user === null || user.name !== blog.user) {
-      return {display: 'none'};
+      return { display: 'none' };
     }
-    return {display: ''};
+    return { display: '' };
   };
 
   const onDelete = () => {
@@ -48,30 +48,30 @@ const Blog = ({blog, likeBlog, deleteBlog}) => {
   };
 
   return (
-      <div style={ blogStyle }>
-        <div style={ smallVisibility() }>
-          <p>{ blog.title }</p>
-        </div>
-        <div style={ bigVisibility() }>
-          <p>{ blog.title }</p>
-          <p>{ blog.url }</p>
-          <div>Likes { likes() }
-            <button onClick={ onLikeClick }>Like</button>
-          </div>
-          <p>{ blog.author }</p>
-          <div style={ deleteBtnVisibility() }>
-            <button onClick={ onDelete }>Poista</button>
-          </div>
-        </div>
-        <button onClick={ onClick }>{ btnTxt() }</button>
+    <div style={ blogStyle }>
+      <div style={ smallVisibility() }>
+        <p>{ blog.title }</p>
       </div>
+      <div style={ bigVisibility() }>
+        <p>{ blog.title }</p>
+        <p>{ blog.url }</p>
+        <div>Likes { likes() }
+          <button onClick={ onLikeClick }>Like</button>
+        </div>
+        <p>{ blog.author }</p>
+        <div style={ deleteBtnVisibility() }>
+          <button onClick={ onDelete }>Poista</button>
+        </div>
+      </div>
+      <button onClick={ onClick }>{ btnTxt() }</button>
+    </div>
   );
 };
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   likeBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired
 };
 
 export default Blog;

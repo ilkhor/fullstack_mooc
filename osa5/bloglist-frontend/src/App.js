@@ -5,7 +5,7 @@ import BlogForm from './components/BlogForm';
 import UserInfo from './components/UserInfo';
 import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
-import './App.css'
+import './App.css';
 import MessageBox from './components/MessageBox';
 import Toggle from './components/Toggle';
 
@@ -24,16 +24,16 @@ const App = () => {
   const [infoMessage, setInfoMessage] = useState({
     message: '',
     timeout: 5000,
-    clazz: '',
+    clazz: ''
   });
 
   const ref = useRef();
 
   const setMessage = (message, clazz) => {
-    const info = {...infoMessage, message: message, clazz: clazz};
+    const info = { ...infoMessage, message: message, clazz: clazz };
     setInfoMessage(info);
 
-    const clear = {timeout: 5000, message: '', clazz: ''};
+    const clear = { timeout: 5000, message: '', clazz: '' };
     setTimeout(() => {
       setInfoMessage(clear);
     }, infoMessage.timeout);
@@ -47,7 +47,7 @@ const App = () => {
       blogService.setToken(authorizedUser.token);
       setUser(authorizedUser);
 
-    } catch(error) {
+    } catch (error) {
       setMessage('Sisäänkirjautuminen epäonnistui', 'error');
     }
   };
@@ -70,42 +70,42 @@ const App = () => {
     const blog = blogs.find(b => b.id === id);
     if (blog !== undefined) {
       const updated = await blogService.likeBlog(blog);
-      setBlogs(blogs.map(b => b.id === id? updated : b));
+      setBlogs(blogs.map(b => b.id === id ? updated : b));
       setMessage('Blogi päivitetty', 'success');
     }
-  }
+  };
 
   const deleteBlog = async (id) => {
     const blog = blogs.find(b => b.id === id);
     if (blog !== undefined) {
-      const deleted = await blogService.deleteBlog(blog);
+      await blogService.deleteBlog(blog);
       setBlogs(blogs.filter(b => b.id !== id));
       setMessage('Blogi poistettu', 'success');
     }
-  }
+  };
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-        setBlogs(blogs),
+      setBlogs(blogs)
     );
   }, [user]);
 
   if (user === null) {
     return ( <div>
-      <MessageBox message={infoMessage.message} clazz={infoMessage.clazz} />
+      <MessageBox message={ infoMessage.message } clazz={ infoMessage.clazz }/>
       <LoginForm handleLogin={ login }/>
     </div> );
   }
 
   return (
-      <div>
-        <MessageBox message={infoMessage.message} clazz={infoMessage.clazz} />
-        <UserInfo user={ user } handleLogout={ logout }/>
-        <Toggle initialVisibility={false} showTxt='Lisää uusi blogi' hideTxt='Peruuta' ref={ref}>
-          <BlogForm handleSubmit={ newBlogPost }/>
-        </Toggle>
-        <BlogList blogs={ blogs } likeBlog={likeBlog} deleteBlog={deleteBlog}/>
-      </div>
+    <div>
+      <MessageBox message={ infoMessage.message } clazz={ infoMessage.clazz }/>
+      <UserInfo user={ user } handleLogout={ logout }/>
+      <Toggle initialVisibility={ false } showTxt="Lisää uusi blogi" hideTxt="Peruuta" ref={ ref }>
+        <BlogForm handleSubmit={ newBlogPost }/>
+      </Toggle>
+      <BlogList blogs={ blogs } likeBlog={ likeBlog } deleteBlog={ deleteBlog }/>
+    </div>
   );
 };
 

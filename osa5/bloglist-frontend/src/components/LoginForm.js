@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import Toggle from './Toggle';
+import React, { useState } from 'react';
 
-const {useState} = require('react');
-const LoginForm = ({handleLogin}) => {
+const LoginForm = ({ handleLogin }) => {
 
   const [userName, setUserName] = useState('');
   const [pwd, setPwd] = useState('');
@@ -15,19 +14,19 @@ const LoginForm = ({handleLogin}) => {
   };
 
   return (
-      <form onSubmit={ login }>
-        <div>
+    <form onSubmit={ login }>
+      <div>
           User: <input type="text" value={ userName } onChange={ (e) => setUserName(e.target.value) }/>
-        </div>
-        <div>
+      </div>
+      <div>
           password: <input type="password" value={ pwd } onChange={ (e) => setPwd(e.target.value) }/>
-        </div>
-        <button type="submit">Kirjaudu</button>
-      </form> );
+      </div>
+      <button type="submit">Kirjaudu</button>
+    </form> );
 };
 
 LoginForm.prototypes = {
-  handleLogin: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired
 };
 
 export default LoginForm;
