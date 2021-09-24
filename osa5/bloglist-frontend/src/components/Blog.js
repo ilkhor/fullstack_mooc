@@ -36,7 +36,6 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
 
   const deleteBtnVisibility = () => {
 
-    console.log(blog.user, user.name);
     if (user === null || user.name !== blog.user) {
       return { display: 'none' };
     }
@@ -49,10 +48,10 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
 
   return (
     <div style={ blogStyle }>
-      <div style={ smallVisibility() }>
+      <div id='small' style={ smallVisibility() }>
         <p>{ blog.title }</p>
       </div>
-      <div style={ bigVisibility() }>
+      <div id='big' style={ bigVisibility() }>
         <p>{ blog.title }</p>
         <p>{ blog.url }</p>
         <div>Likes { likes() }
