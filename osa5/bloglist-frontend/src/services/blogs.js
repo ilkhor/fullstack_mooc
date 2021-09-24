@@ -16,6 +16,10 @@ const config = () => {
   };
 };
 
+const setToken = (t) => {
+  token = t;
+};
+
 const getAll = () => {
   const cfg = config();
   const request = axios.get(baseUrl, cfg);
@@ -38,16 +42,18 @@ const likeBlog = (blog) => {
     return {...blog, likes: blog.likes + 1};
   };
 
-  const url = `${baseUrl}/${ blog.id }`;
+  const url = `${ baseUrl }/${ blog.id }`;
 
   const request = axios.put(url, like(), cfg);
   return request.then(response => response.data);
 };
 
-const setToken = (t) => {
-  token = t;
+const deleteBlog = (blog) => {
+  const url = `${ baseUrl }/${ blog.id }`;
+  return axios.delete(url, config())
+  .then(r => r.data);
 };
 
 const clearToken = () => token = null;
 
-export default {getAll, create, setToken, clearToken, likeBlog};
+export default {getAll, create, setToken, clearToken, likeBlog, deleteBlog};

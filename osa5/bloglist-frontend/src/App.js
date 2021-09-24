@@ -52,15 +52,6 @@ const App = () => {
     }
   };
 
-  const likeBlog = async (id) => {
-    const blog = blogs.find(b => b.id === id);
-    if (blog !== undefined) {
-      const updated = await blogService.likeBlog(blog);
-      setBlogs(blogs.map(b => b.id === id? updated : b));
-      setMessage('Blogi päivitetty', 'success');
-    }
-  }
-
   const logout = () => {
     blogService.clearToken();
     users.removeLocallyStoredUser();
@@ -74,6 +65,24 @@ const App = () => {
     setMessage('Blogi lisätty onnistuneesti', 'success');
     ref.current.setVisibility(false);
   };
+
+  const likeBlog = async (id) => {
+    const blog = blogs.find(b => b.id === id);
+    if (blog !== undefined) {
+      const updated = await blogService.likeBlog(blog);
+      setBlogs(blogs.map(b => b.id === id? updated : b));
+      setMessage('Blogi päivitetty', 'success');
+    }
+  }
+
+  const deleteBlog = async (id) => {
+    const blog = blogs.find(b => b.id === id);
+    if (blog !== undefined) {
+      const deleted = await blogService.deleteBlog(blog);
+      setBlogs(blogs.filter(b => b.id !== id));
+      setMessage('Blogi poistettu', 'success');
+    }
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -95,7 +104,7 @@ const App = () => {
         <Toggle initialVisibility={false} showTxt='Lisää uusi blogi' hideTxt='Peruuta' ref={ref}>
           <BlogForm handleSubmit={ newBlogPost }/>
         </Toggle>
-        <BlogList blogs={ blogs } likeBlog={likeBlog}/>
+        <BlogList blogs={ blogs } likeBlog={likeBlog} deleteBlog={deleteBlog}/>
       </div>
   );
 };

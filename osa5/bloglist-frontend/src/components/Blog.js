@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import userService from '../services/user'
 
-const Blog = ({blog, likeBlog}) => {
+const Blog = ({blog, likeBlog, deleteBlog}) => {
 
   const blogStyle = {
     paddingTop: 10,
@@ -10,6 +11,7 @@ const Blog = ({blog, likeBlog}) => {
     marginBottom: 5,
   };
 
+  const user = userService.fetchUserLocally();
   const [state, setState] = useState('small');
 
   const btnTxt = () => ( state === 'small' ? 'Näytä' : 'Piilota' );
@@ -31,6 +33,19 @@ const Blog = ({blog, likeBlog}) => {
     return blog.likes;
   };
 
+  const deleteBtnVisibility = () => {
+
+    console.log(blog.user, user.name);
+    if (user === null || user.name !== blog.user) {
+      return {display: 'none'};
+    }
+    return {display: ''};
+  };
+
+  const onDelete = () => {
+    deleteBlog(blog.id);
+  };
+
   return (
       <div style={ blogStyle }>
         <div style={ smallVisibility() }>
@@ -43,6 +58,9 @@ const Blog = ({blog, likeBlog}) => {
             <button onClick={ onLikeClick }>Like</button>
           </div>
           <p>{ blog.author }</p>
+          <div  style={deleteBtnVisibility()}>
+            <button onClick={ onDelete }>Poista</button>
+          </div>
         </div>
         <button onClick={ onClick }>{ btnTxt() }</button>
       </div>
