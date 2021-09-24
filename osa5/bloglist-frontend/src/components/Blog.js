@@ -62,7 +62,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
           <button onClick={ onDelete }>Poista</button>
         </div>
       </div>
-      <button onClick={ onClick }>{ btnTxt() }</button>
+      <button id='toggle' onClick={ onClick }>{ btnTxt() }</button>
     </div>
   );
 };
