@@ -2,8 +2,10 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import Blog from '../../components/Blog';
 import { fireEvent, render } from '@testing-library/react';
+import BlogForm from '../../components/BlogForm';
 
 describe('Blog tests', () => {
+
   const blog = {
     'user': 'Ilkka',
     'title': 'Title',
@@ -70,6 +72,29 @@ describe('Blog tests', () => {
     fireEvent.click(likeBtn);
 
     expect(likeBlog).toHaveBeenCalledTimes(2);
+  });
+
+  test('Blog created with correct values', () => {
+
+    const handleSubmit = jest.fn();
+
+    const component = render(
+      <BlogForm handleSubmit={ handleSubmit }/>);
+
+    const title = component.container.querySelector('#title_text');
+    const author = component.container.querySelector('#author_text');
+    const url = component.container.querySelector('#url_text');
+    const form = component.container.querySelector('form');
+
+    fireEvent.change(title, { target: { value: blog.title } });
+    fireEvent.change(author, { target: { value: blog.author } });
+    fireEvent.change(url, { target: { value: blog.url } });
+    fireEvent.submit(form);
+
+    expect(handleSubmit).toBeCalledWith({
+      title: blog.title, author: blog.author, url: blog.url
+    });
+
   });
 
 });

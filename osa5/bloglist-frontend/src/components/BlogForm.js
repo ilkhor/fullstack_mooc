@@ -24,18 +24,18 @@ const BlogForm = ({ handleSubmit }) => {
       <h3>Create new</h3>
       <form onSubmit={ submit }>
         <div><label id="title">Title: </label>
-          <input type="text" value={ title }
+          <input id='title_text' value={ title }
             onChange={ (e) => setTitle(e.target.value) }/>
 
         </div>
         <div>
           <label id="author">Author: </label>
-          <input type="text" value={ author }
+          <input id='author_text' type="text" value={ author }
             onChange={ (e) => setAuthor(e.target.value) }/>
         </div>
         <div>
           <label id="url">Url: </label>
-          <input type="text" value={ url }
+          <input id='url_text' type="text" value={ url }
             onChange={ (e) => setUrl(e.target.value) }/>
         </div>
         <button type="submit">Tallenna</button>
