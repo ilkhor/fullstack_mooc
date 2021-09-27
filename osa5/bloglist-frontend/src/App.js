@@ -87,7 +87,9 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
-    );
+    ).catch(e => {
+      console.log(e);
+    });
   }, [user]);
 
   if (user === null) {

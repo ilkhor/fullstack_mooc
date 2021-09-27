@@ -6,7 +6,11 @@ const router = jsonServer.router(path.join(__dirname, 'db.json'));
 const middlewares = jsonServer.defaults();
 const { v4: uuidv4 } = require('uuid');
 
-const users = ['ilkka', 'test', 'foobar'];
+let users = ['ilkka', 'test', 'foobar'];
+
+const isTestRequest = (req) => {
+  return req.path.includes('/api/testing');
+};
 
 const isAuthorized = (req) => {
 
@@ -16,9 +20,24 @@ const isAuthorized = (req) => {
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+server.use((req,res,next) => {
+  console.log(`${req.method} ${req.url}`)
+  next();
+})
+
 server.post('/api/testing/reset', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'application\\text' });
+  users = ['ilkka', 'test', 'foobar'];
   res.write('OK');
+  res.end();
+});
+
+server.post('/api/testing/user', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application\\text' });
+
+  users = users.concat(req.body.user);
+  res.write('OK');
+
   res.end();
 });
 
@@ -36,7 +55,7 @@ server.post('/login', (req, res) => {
 
     res.writeHead(200, { 'Content-Type': 'application\\json' });
     res.write(JSON.stringify({
-      name: 'Ilkka',
+      name: req.body.user,
       token: token
     }));
   } else {
@@ -49,8 +68,10 @@ server.post('/login', (req, res) => {
   res.end();
 });
 
+
+
 server.use((req, res, next) => {
-  if (isAuthorized(req)) { // add your authorization logic here
+  if (isAuthorized(req) || isTestRequest(req)) { // add your authorization logic here
     next(); // continue to JSON Server router
   } else {
     res.sendStatus(401);
