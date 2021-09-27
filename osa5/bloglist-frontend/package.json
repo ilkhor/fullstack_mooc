@@ -17,7 +17,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node ./test_backend/server.js",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
+    "eslint-plugin-cypress": "^2.12.1",
     "json-server": "^0.16.3",
     "jsonwebtoken": "^8.5.1",
     "uuid": "^8.3.2"

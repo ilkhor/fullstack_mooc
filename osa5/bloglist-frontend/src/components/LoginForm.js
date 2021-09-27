@@ -16,10 +16,10 @@ const LoginForm = ({ handleLogin }) => {
   return (
     <form onSubmit={ login }>
       <div>
-          User: <input type="text" value={ userName } onChange={ (e) => setUserName(e.target.value) }/>
+          User: <input id='username' type="text" value={ userName } onChange={ (e) => setUserName(e.target.value) }/>
       </div>
       <div>
-          password: <input type="password" value={ pwd } onChange={ (e) => setPwd(e.target.value) }/>
+          password: <input id='pwd' type="password" value={ pwd } onChange={ (e) => setPwd(e.target.value) }/>
       </div>
       <button type="submit">Kirjaudu</button>
     </form> );
