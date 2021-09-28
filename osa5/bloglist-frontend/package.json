@@ -18,7 +18,7 @@
     "eject": "react-scripts eject",
     "server": "node ./test_backend/server.js",
     "eslint": "eslint .",
-    "cypress:open": "cypress open"
+    "cypress:open": "npx cypress open"
   },
   "eslintConfig": {
     "extends": [

@@ -47,14 +47,14 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   };
 
   return (
-    <div id={blog.id} style={ blogStyle }>
+    <div id={blog.id} className='blog' style={ blogStyle }>
       <div id='small' style={ smallVisibility() }>
         <p>{ blog.title }</p>
       </div>
       <div id='big' style={ bigVisibility() }>
         <p>{ blog.title }</p>
         <p>{ blog.url }</p>
-        <div id='likes'>Likes { likes() }
+        <div id='likes' >Likes <span className='blog_like'>{ likes() }</span>
           <button id={`likeBtn.${blog.id}`} onClick={ onLikeClick }>Like</button>
         </div>
         <p>{ blog.author }</p>

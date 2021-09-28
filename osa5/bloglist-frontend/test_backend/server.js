@@ -2,12 +2,12 @@ const jwt = require('jsonwebtoken');
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const path = require('path');
-const router = jsonServer.router(path.join(__dirname, 'db.json'));
+// const router = jsonServer.router(path.join(__dirname, 'db.json'));
+const router = jsonServer.router({ blogs: [] });
 const middlewares = jsonServer.defaults();
 const { v4: uuidv4 } = require('uuid');
 
 let users = ['ilkka', 'test', 'foobar'];
-let  blogs = [];
 
 const isTestRequest = (req) => {
   return req.path.includes('/api/testing');
@@ -21,14 +21,15 @@ const isAuthorized = (req) => {
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-server.use((req,res,next) => {
-  console.log(`${req.method} ${req.url}`)
+server.use((req, res, next) => {
+  console.log(`${ req.method } ${ req.url }`);
   next();
-})
+});
 
 server.post('/api/testing/reset', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'application\\text' });
   users = ['ilkka', 'test', 'foobar'];
+  router.db.setState({ blogs: [] });
   res.write('OK');
   res.end();
 });
@@ -69,8 +70,6 @@ server.post('/login', (req, res) => {
   res.end();
 });
 
-
-
 server.use((req, res, next) => {
   if (isAuthorized(req) || isTestRequest(req)) { // add your authorization logic here
     next(); // continue to JSON Server router
@@ -79,7 +78,7 @@ server.use((req, res, next) => {
   }
 });
 
-// server.use('/api', router);
+server.use('/api', router);
 server.listen(3003, () => {
   console.log('JSON Server is running');
 });

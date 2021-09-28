@@ -106,6 +106,59 @@ describe('Blog app', function() {
       });
     });
 
+    describe('Blogs are ordered correctly', () => {
+
+      beforeEach(() => {
+
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        [...Array(5).keys()].map(i => {
+          const blog = {
+            title: uuidv4(),
+            author: i,
+            url: uuidv4(),
+            likes: Math.floor(Math.random() * 1000),
+            user: uuidv4()
+          };
+
+          cy.request({
+            method: 'POST',
+            url: 'http://localhost:3003/api/blogs',
+            body: blog,
+            auth: {
+              bearer: user.token
+            }
+          });
+
+          cy.request({
+            method: 'GET',
+            url: 'http://localhost:3003/api/blogs',
+            auth: {
+              bearer: user.token
+            }
+          });
+        });
+      }
+      );
+
+      it('Blogs are based on likes',  () => {
+        let likes = -1;
+
+        cy.visit('http://localhost:3000');
+
+        cy.get('.blog_like').each(blogLike => {
+          const likeCount = parseInt(blogLike.get(0).innerText);
+          if (likes === -1) {
+            likes = likeCount;
+          } else {
+            if (likeCount > likes) {
+              throw new Error('test fails here');
+            }
+            likes = likeCount;
+          }
+        });
+      });
+    });
+
   });
-})
-;
+});
