@@ -63,5 +63,40 @@ describe('Blog app', function() {
       cy.contains(blog.author);
       cy.contains(blog.url);
     });
+
+    describe('When blog has been created', () => {
+
+      const blog = {
+        title: uuidv4(),
+        author: uuidv4(),
+        url: uuidv4(),
+        likes: 0
+      };
+
+      beforeEach(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: blog,
+          auth: {
+            bearer: user.token
+          }
+        }).then(response => {
+          blog.id = response.body.id;
+        });
+      });
+
+      it('Blog can be liked', () => {
+
+        cy.visit('http://localhost:3000');
+        cy.get(`#${ blog.id }`).as('theBlog');
+        cy.get('@theBlog').find('#toggle').click();
+        cy.get('@theBlog').find('#likes').find('button').click();
+        cy.get('@theBlog', { timeout: 500 }).contains('Likes 1');
+      });
+    });
+
   });
-});
+})
+;

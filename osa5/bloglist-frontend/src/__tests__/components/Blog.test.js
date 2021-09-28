@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import Blog from '../../components/Blog';
 import { fireEvent, render } from '@testing-library/react';
 import BlogForm from '../../components/BlogForm';
+import { v4 as uuidv4 } from 'uuid';
 
 describe('Blog tests', () => {
 
@@ -11,7 +12,7 @@ describe('Blog tests', () => {
     'title': 'Title',
     'author': 'Author',
     'url': 'http://url.com',
-    'id': 5,
+    'id': uuidv4(),
     'likes': 1
   };
 
@@ -65,7 +66,7 @@ describe('Blog tests', () => {
     );
 
     const toggleBtn = component.container.querySelector('#toggle');
-    const likeBtn = component.container.querySelector('#likeBtn');
+    const likeBtn = component.container.querySelector(`#likeBtn.${blog.id}`);
 
     fireEvent.click(toggleBtn);
     fireEvent.click(likeBtn);

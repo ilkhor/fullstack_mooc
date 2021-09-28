@@ -47,19 +47,19 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   };
 
   return (
-    <div style={ blogStyle }>
+    <div id={blog.id} style={ blogStyle }>
       <div id='small' style={ smallVisibility() }>
         <p>{ blog.title }</p>
       </div>
       <div id='big' style={ bigVisibility() }>
         <p>{ blog.title }</p>
         <p>{ blog.url }</p>
-        <div>Likes { likes() }
-          <button id='likeBtn' onClick={ onLikeClick }>Like</button>
+        <div id='likes'>Likes { likes() }
+          <button id={`likeBtn.${blog.id}`} onClick={ onLikeClick }>Like</button>
         </div>
         <p>{ blog.author }</p>
         <div style={ deleteBtnVisibility() }>
-          <button onClick={ onDelete }>Poista</button>
+          <button id={`delete.${blog.id}`} onClick={ onDelete }>Poista</button>
         </div>
       </div>
       <button id='toggle' onClick={ onClick }>{ btnTxt() }</button>
