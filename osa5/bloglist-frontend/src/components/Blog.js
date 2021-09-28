@@ -58,7 +58,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
           <button id={`likeBtn.${blog.id}`} onClick={ onLikeClick }>Like</button>
         </div>
         <p>{ blog.author }</p>
-        <div style={ deleteBtnVisibility() }>
+        <div id='deletion' style={ deleteBtnVisibility() }>
           <button id={`delete.${blog.id}`} onClick={ onDelete }>Poista</button>
         </div>
       </div>

@@ -7,6 +7,7 @@ const middlewares = jsonServer.defaults();
 const { v4: uuidv4 } = require('uuid');
 
 let users = ['ilkka', 'test', 'foobar'];
+let  blogs = [];
 
 const isTestRequest = (req) => {
   return req.path.includes('/api/testing');
@@ -78,7 +79,7 @@ server.use((req, res, next) => {
   }
 });
 
-server.use('/api', router);
+// server.use('/api', router);
 server.listen(3003, () => {
   console.log('JSON Server is running');
 });

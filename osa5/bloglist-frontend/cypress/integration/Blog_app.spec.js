@@ -66,15 +66,17 @@ describe('Blog app', function() {
 
     describe('When blog has been created', () => {
 
-      const blog = {
-        title: uuidv4(),
-        author: uuidv4(),
-        url: uuidv4(),
-        likes: 0
-      };
-
+      let blog = null;
       beforeEach(() => {
         const user = JSON.parse(localStorage.getItem('user'));
+        blog = {
+          title: uuidv4(),
+          author: uuidv4(),
+          url: uuidv4(),
+          likes: 0,
+          user: user.name
+        };
+
         cy.request({
           method: 'POST',
           url: 'http://localhost:3003/api/blogs',
@@ -85,15 +87,22 @@ describe('Blog app', function() {
         }).then(response => {
           blog.id = response.body.id;
         });
+        cy.visit('http://localhost:3000');
+
       });
 
       it('Blog can be liked', () => {
-
-        cy.visit('http://localhost:3000');
         cy.get(`#${ blog.id }`).as('theBlog');
         cy.get('@theBlog').find('#toggle').click();
         cy.get('@theBlog').find('#likes').find('button').click();
         cy.get('@theBlog', { timeout: 500 }).contains('Likes 1');
+      });
+
+      it('Blog can be deleted', () => {
+        cy.get(`#${ blog.id }`).as('theBlog');
+        cy.get('@theBlog').find('#toggle').click();
+        cy.get('@theBlog').find('#deletion').find('button').click();
+        cy.get('@theBlog').should('not.exist');
       });
     });
 
