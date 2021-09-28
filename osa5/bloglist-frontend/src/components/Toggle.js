@@ -20,9 +20,9 @@ const Toggle = React.forwardRef((props, ref) => {
         { props.children }
       </div>
       <div>
-        <button style={ buttonVisible() }
+        <button id='first' style={ buttonVisible() }
           onClick={ () => setVisibility(true) }>{ props.showTxt }</button>
-        <button style={ childVisible() }
+        <button id='second' style={ childVisible() }
           onClick={ () => setVisibility(false) }>{ props.hideTxt }</button>
       </div>
     </div> );
