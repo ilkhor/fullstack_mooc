@@ -5,7 +5,7 @@ import Anecdote from './Anecdote';
 
 const AnecdoteList = () => {
 
-  const anecdotes = useSelector(state => sortByVotes(state));
+  const anecdotes = useSelector(state => sortByVotes(state.anecdotes));
   const dispatch = useDispatch();
 
   const vote = (id) => {
