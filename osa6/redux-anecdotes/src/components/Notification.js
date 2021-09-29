@@ -11,6 +11,10 @@ const Notification = () => {
 
   const notification = useSelector(state => state.notification);
 
+  if (notification === undefined || notification === null || notification.length === 0) {
+    return null;
+  }
+
   return (
     <div style={style}>
       {notification}
