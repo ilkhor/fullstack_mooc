@@ -7,7 +7,7 @@ const StatisticsLine = ({rating, value}) => ( <tr>
 
 const Statistics = ({feedback}) => {
 
-  const feedbackCount = () => feedback.good + feedback.neutral + feedback.bad;
+  const feedbackCount = () => feedback.good + feedback.ok + feedback.bad;
   const average = () => {
     const value = feedback.good - feedback.bad;
     if (value === 0) return 0;
@@ -42,7 +42,7 @@ const Statistics = ({feedback}) => {
           </thead>
           <tbody>
             <StatisticsLine rating="good" value={ feedback.good }/>
-            <StatisticsLine rating="neutral" value={ feedback.neutral }/>
+            <StatisticsLine rating="neutral" value={ feedback.ok }/>
             <StatisticsLine rating="bad" value={ feedback.bad }/>
             <StatisticsLine rating="total" value={ feedbackCount() }/>
             <StatisticsLine rating="average" value={ average() }/>
