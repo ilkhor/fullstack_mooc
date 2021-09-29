@@ -56,4 +56,13 @@ export const addAnecdote = (content) => {
   };
 };
 
+export const sortByVotes = (state) => {
+  const sorted = [...state];
+  return sorted.sort((a,b) => {
+    if (a.votes > b.votes) return -1;
+    else if (a.votes < b.votes) return 1;
+    return 0;
+  });
+}
+
 export default reducer;
