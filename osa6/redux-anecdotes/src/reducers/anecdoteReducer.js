@@ -56,6 +56,11 @@ export const addAnecdote = (content) => {
   };
 };
 
+export const filterByContent = (state, filter) => {
+  if (filter === undefined || filter === null || filter.length === 0) return state;
+  return state.filter(a => a.content.includes(filter));
+}
+
 export const sortByVotes = (state) => {
   const sorted = [...state];
   return sorted.sort((a,b) => {

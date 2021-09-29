@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sortByVotes, voteAnecdote } from '../reducers/anecdoteReducer';
+import { filterByContent, sortByVotes, voteAnecdote } from '../reducers/anecdoteReducer';
 import Anecdote from './Anecdote';
 import { clearNotification, setNotification } from '../reducers/notificationReducer';
 
 const AnecdoteList = () => {
 
-  const anecdotes = useSelector(state => sortByVotes(state.anecdotes));
+  const anecdotes = useSelector(state => sortByVotes(filterByContent(state.anecdotes, state.filter)));
   const dispatch = useDispatch();
 
   const vote = (anecdote) => {
