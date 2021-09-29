@@ -19,4 +19,14 @@ const counterReducer = (state = initialState, action) => {
   return state;
 };
 
+export const createGoodFeedback = () => {
+  return { type: 'GOOD' };
+};
+export const createNeutralFeedback = () => {
+  return { type: 'OK' };
+};
+export const createBadFeedback = () => {
+  return { type: 'BAD' };
+};
+
 export default counterReducer;

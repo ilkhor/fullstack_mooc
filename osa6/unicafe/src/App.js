@@ -1,26 +1,19 @@
 import './App.css';
-import counterReducer from './state/counterReducer';
 import Header from './components/Header';
 import Statistics from './components/Statistics';
 import Button from './components/Button';
-import { createStore } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { createBadFeedback, createGoodFeedback, createNeutralFeedback } from './state/counterReducer';
 
 function App () {
 
-  const store = createStore(counterReducer);
+  const dispatch = useDispatch();
+  const feedback = useSelector(state => state);
 
-  const goodFeedback = () => store.dispatch({ type: 'GOOD' });
-  const neutralFeedback = () => store.dispatch({ type: 'OK' });
-  const badFeedback = () => store.dispatch({ type: 'BAD' });
-
-  goodFeedback();
-  goodFeedback();
-  goodFeedback();
-  goodFeedback();
-  neutralFeedback();
-  neutralFeedback();
-  neutralFeedback();
-  neutralFeedback();
+  const goodFeedback = () => dispatch(createGoodFeedback());
+  const neutralFeedback = () => dispatch(createNeutralFeedback());
+  const badFeedback = () => dispatch(createBadFeedback());
 
   return (
     <div>
@@ -28,7 +21,7 @@ function App () {
       <Button text="good" handleClick={ goodFeedback }/>
       <Button text="neutral" handleClick={ neutralFeedback }/>
       <Button text="bad" handleClick={ badFeedback }/>
-      <Statistics feedback={ store.getState() }/>
+      <Statistics feedback={ feedback }/>
     </div>
   );
 }
