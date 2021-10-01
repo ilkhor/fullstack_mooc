@@ -14,7 +14,16 @@ const notificationReducer = (state = initialState, action) => {
   return state;
 };
 
+const data = {
+  currentId: null
+};
+
 export const setNotification = (notification, timeInSeconds) => (dispatch) => {
+
+  if (data.currentId !== null) {
+    clearTimeout(data.currentId);
+  }
+
   dispatch({
     type: 'SET_NOTIFICATION',
     notification
@@ -22,10 +31,11 @@ export const setNotification = (notification, timeInSeconds) => (dispatch) => {
 
   const timeout = timeInSeconds * 1000;
 
-  setTimeout(() => {
+  data.currentId = setTimeout(() => {
     dispatch({
       type: 'CLEAR'
     });
+    data.currentId = null;
   }, timeout);
 };
 
