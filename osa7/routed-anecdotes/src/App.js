@@ -69,10 +69,10 @@ const CreateNew = (props) => {
     });
   };
 
-  const reset = () => {
-    content.reset();
-    author.reset();
-    info.reset();
+  const onReset = () => {
+    content.onReset();
+    author.onReset();
+    info.onReset();
   };
 
   return (
@@ -92,7 +92,7 @@ const CreateNew = (props) => {
           <input { ...info }/>
         </div>
         <button>create</button>
-        <button type="button" onClick={() => reset() }>reset</button>
+        <button type="button" onClick={ onReset }>reset</button>
       </form>
     </div>
   );
