@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
+import { Link, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
+import { useField } from './hooks';
 
 const Menu = () => {
   const padding = {
@@ -53,16 +54,17 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
-  const [info, setInfo] = useState('');
+
+  const content = useField('text');
+  const author = useField('text');
+  const info = useField('text');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     });
   };
@@ -73,15 +75,15 @@ const CreateNew = (props) => {
       <form onSubmit={ handleSubmit }>
         <div>
           content
-          <input name="content" value={ content } onChange={ (e) => setContent(e.target.value) }/>
+          <input { ...content }/>
         </div>
         <div>
           author
-          <input name="author" value={ author } onChange={ (e) => setAuthor(e.target.value) }/>
+          <input { ...author }/>
         </div>
         <div>
           url for more info
-          <input name="info" value={ info } onChange={ (e) => setInfo(e.target.value) }/>
+          <input { ...info }/>
         </div>
         <button>create</button>
       </form>
@@ -90,15 +92,15 @@ const CreateNew = (props) => {
 
 };
 
-const Notification = ({txt}) => {
+const Notification = ({ txt }) => {
 
   if (txt === '') return null;
 
   return (
     <div>
-      {txt}
+      { txt }
     </div>
-  )
+  );
 
 };
 
@@ -137,7 +139,7 @@ const App = () => {
   const homeWithTxt = (txt) => {
     history.push('/');
     setNotification(txt);
-    setTimeout( () => {
+    setTimeout(() => {
       setNotification('');
     }, 5000);
   };
@@ -145,10 +147,8 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = ( Math.random() * 10000 ).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
-    homeWithTxt(`A new anecdote ${anecdote.content} created`);
+    homeWithTxt(`A new anecdote ${ anecdote.content } created`);
   };
-
-
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id);
@@ -171,7 +171,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu/>
-      <Notification txt={notification} />
+      <Notification txt={ notification }/>
       <Switch>
         <Route path="/about">
           <About/>
