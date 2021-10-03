@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 
 const Menu = () => {
   const padding = {
@@ -8,9 +8,9 @@ const Menu = () => {
   };
   return (
     <div>
-      <Link to='/' style={ padding }>anecdotes</Link>
-      <Link to='/create' style={ padding }>Create new</Link>
-      <Link to='/about' style={ padding }>About</Link>
+      <Link to="/" style={ padding }>anecdotes</Link>
+      <Link to="/create" style={ padding }>Create new</Link>
+      <Link to="/about" style={ padding }>About</Link>
     </div>
   );
 };
@@ -19,7 +19,8 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      { anecdotes.map(anecdote => <li key={ anecdote.id }>{ anecdote.content }</li>) }
+      { anecdotes.map(anecdote => <li key={ anecdote.id }><Link
+        to={ `/anecdotes/${ anecdote.id }` }>{ anecdote.content }</Link></li>) }
     </ul>
   </div>
 );
@@ -89,6 +90,17 @@ const CreateNew = (props) => {
 
 };
 
+const Anecdote = ({ anecdote }) => {
+  console.log(anecdote);
+  return (
+    <div>
+      <h2>{ anecdote.content }</h2>
+      <div>has { anecdote.votes } votes</div>
+      <div>For more info see <a href={ anecdote.info }>{ anecdote.info }</a></div>
+    </div>
+  );
+};
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -128,6 +140,9 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a));
   };
 
+  const match = useRouteMatch('/anecdotes/:id');
+  const anecdote = match ? anecdoteById(match.params.id) : null;
+
   return (
     <div>
       <h1>Software anecdotes</h1>
@@ -138,6 +153,9 @@ const App = () => {
         </Route>
         <Route path="/create">
           <CreateNew addNew={ addNew }/>
+        </Route>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={ anecdote }/>
         </Route>
         <Route path="/">
           <AnecdoteList anecdotes={ anecdotes }/>
