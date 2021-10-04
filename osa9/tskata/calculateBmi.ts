@@ -9,6 +9,6 @@ export const calculateBmi = (height: number, weight: number): string => {
     else if (bmi < 35.0) return "Obese (Class I)";
     else if (bmi < 40.0) return "Obese (Class II)";
     else return "Obese (Class III)";
-}
+};
 
 console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])));
