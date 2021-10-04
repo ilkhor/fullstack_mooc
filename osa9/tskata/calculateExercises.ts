@@ -35,4 +35,17 @@ const calculateExercises = (target: number, exercises: Array<number>): ExerciseR
     };
 }
 
-console.log(calculateExercises(2, [3, 0, 2, 4.5, 0, 3, 1]));
+interface InputValues {
+    target: number,
+    exercises: Array<number>
+};
+
+const parseInput = (args: Array<string>): InputValues => {
+    return {
+        target: Number(args[2]),
+        exercises: args.slice(3).map(n => Number(n))
+    }
+};
+
+const input = parseInput(process.argv);
+console.log(calculateExercises(input.target, input.exercises));
